@@ -1,0 +1,19 @@
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/AndroidStudioProjects/LiteAVSDK_TRTC_Android_9.8.0.11553/TRTC-API-Example/Advanced/ThirdBeauty/src/main/res/layout/activity_third_beauty.xml" value="0.16145833333333334" />
+        <entry key="..\:/AndroidStudioProjects/LiteAVSDK_TRTC_Android_9.8.0.11553/TRTC-API-Example/Advanced/ThirdBeauty/src/main/res/layout/activity_third_beauty_bytedance.xml" value="0.16145833333333334" />
+        <entry key="..\:/AndroidStudioProjects/LiteAVSDK_TRTC_Android_9.8.0.11553/TRTC-API-Example/Advanced/ThirdBeauty/src/main/res/layout/activity_third_beauty_enter.xml" value="0.16145833333333334" />
+        <entry key="..\:/AndroidStudioProjects/demo/HT_Tencent_VideoCall_Android/htui/src/main/res/layout/layout_beauty.xml" value="0.24947916666666667" />
+        <entry key="..\:/AndroidStudioProjects/demo/HT_Tencent_VideoCall_Android/htui/src/main/res/layout/layout_beauty_skin.xml" value="0.24947916666666667" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
