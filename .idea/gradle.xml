@@ -4,9 +4,9 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="testRunner" value="GRADLE" />
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="testRunner" value="CHOOSE_PER_TEST" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleJvm" value="11" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -36,9 +36,10 @@
             <option value="$PROJECT_DIR$/Basic/VoiceChatRoom" />
             <option value="$PROJECT_DIR$/Common" />
             <option value="$PROJECT_DIR$/Debug" />
-            <option value="$PROJECT_DIR$/htui" />
+            <option value="$PROJECT_DIR$/fbui" />
           </set>
         </option>
+        <option name="resolveExternalAnnotations" value="false" />
       </GradleProjectSettings>
     </option>
   </component>

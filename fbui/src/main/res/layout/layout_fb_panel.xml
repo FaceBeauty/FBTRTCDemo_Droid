@@ -25,6 +25,7 @@
         android:layout_height="match_parent"
         android:visibility="gone"/>
 
+
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_fb_trigger"
         android:layout_width="44dp"
@@ -50,7 +51,7 @@
     <com.nimo.fb_effect.view.FBTakephotoButton
         android:id="@+id/btn_shutter1"
         android:layout_width="76dp"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_height="76dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -90,7 +91,7 @@
             android:id="@+id/shutter_iv"
             android:layout_width="65dp"
             android:layout_height="65dp"
-            android:visibility="visible"
+            android:visibility="gone"
             android:src="@drawable/icon_shutter"
             android:layout_marginBottom="100dp"
             android:layout_gravity="center"

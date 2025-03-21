@@ -7,6 +7,6 @@
 
     <item
         android:state_selected="true"
-        android:drawable="@mipmap/ico_home_beauty" />
+        android:drawable="@mipmap/ic_trigger_white" />
 
 </selector>

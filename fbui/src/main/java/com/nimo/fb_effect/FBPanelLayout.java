@@ -347,6 +347,7 @@ public class FBPanelLayout extends ConstraintLayout
     });
 
 
+
     ivFbRestore.setOnClickListener(new OnClickListener() {
       @Override public void onClick(View view) {
         resetAllDialog.show(fm, "all");
@@ -425,7 +426,6 @@ public class FBPanelLayout extends ConstraintLayout
       case BEAUTY:
         hideContainer();
         break;
-
     }
   }
 
@@ -517,15 +517,15 @@ public class FBPanelLayout extends ConstraintLayout
     //根据切换的面板做对应的处理
     Log.e("change_Panel:", viewState.name());
     switch (viewState) {
-      case HIDE:
-        hideContainer();
-        stickerView.setVisibility(GONE);
-        break;
+//      case HIDE:
+//        hideContainer();
+//        stickerView.setVisibility(GONE);
+//        break;
 
       case BEAUTY:
         ivFbTrigger.setVisibility(View.GONE);
         ivFbRestore.setVisibility(View.GONE);
-        shutterIv.setVisibility(View.VISIBLE);
+        shutterIv.setVisibility(View.GONE);
         btnShutter.setVisibility(View.GONE);
         stickerView.setVisibility(VISIBLE);
         switchModePanel(new FBBeautyFragment(),"beauty");
