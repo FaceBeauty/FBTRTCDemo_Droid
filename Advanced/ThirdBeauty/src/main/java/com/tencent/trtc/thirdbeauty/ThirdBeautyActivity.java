@@ -13,10 +13,15 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.example.basic.TRTCBaseActivity;
 import com.nimo.facebeauty.FBEffect;
 import com.nimo.facebeauty.model.FBRotationEnum;
 import com.nimo.fb_effect.FBPanelLayout;
+import com.nimo.fb_effect.fragment.FBBeautyFragment;
+import com.nimo.fb_effect.fragment.LightMakeupFragment;
 import com.nimo.fb_effect.model.FBViewState;
 import com.tencent.liteav.TXLiteAVCode;
 import com.tencent.rtmp.ui.TXCloudVideoView;
@@ -64,8 +69,12 @@ public class ThirdBeautyActivity extends TRTCBaseActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third_beauty);
         //todo --- facebeauty start ---
-        addContentView(new FBPanelLayout(this).init(getSupportFragmentManager()),
-            new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FBBeautyFragment beautyFragment = new FBBeautyFragment();//美颜-美型-滤镜
+        fragmentTransaction.add(R.id.fl_beauty_container, beautyFragment);
+
+        fragmentTransaction.commit();
         //todo --- facebeauty end ---
         getSupportActionBar().hide();
 

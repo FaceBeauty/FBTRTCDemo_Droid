@@ -34,18 +34,27 @@
             android:textSize="20sp" />
 
     </LinearLayout>
-
+    <FrameLayout
+        android:id="@+id/fl_beauty_container"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_above="@id/ll_edit_info"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:background="@android:color/transparent" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_above="@+id/ll_edit_info">
+        android:layout_above="@+id/ll_edit_info"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_weight="1.5"
             android:orientation="vertical"
-            android:paddingLeft="10dp">
+            android:paddingLeft="10dp"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -153,6 +162,7 @@
             android:textColor="@android:color/white"
             android:textSize="18sp" />
     </LinearLayout>
+
 
     <com.tencent.rtmp.ui.TXCloudVideoView
         android:id="@+id/txcvv_video_remote1"
