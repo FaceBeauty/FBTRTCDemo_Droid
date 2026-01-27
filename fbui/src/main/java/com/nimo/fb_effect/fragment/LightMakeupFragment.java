@@ -29,8 +29,10 @@ import com.nimo.fb_effect.base.FBBaseFragment;
 import com.nimo.fb_effect.model.FBEventAction;
 import com.nimo.fb_effect.model.FBState;
 import com.nimo.fb_effect.model.FBViewState;
+import com.nimo.fb_effect.utils.FBConfigTools;
 import com.nimo.fb_effect.utils.FBSelectedPosition;
 import com.nimo.fb_effect.utils.FBUICacheUtils;
+import com.nimo.fb_effect.utils.SharedPreferencesUtil;
 import com.nimo.fb_effect.view.FBBarView;
 import com.shizhefei.view.indicator.FragmentListPageAdapter;
 import com.shizhefei.view.indicator.IndicatorViewPager;
@@ -87,6 +89,8 @@ public class LightMakeupFragment extends FBBaseFragment {
         //todo e
 //        returnIv = view.findViewById(R.id.return_iv);
         HTPanelLayout = new FBPanelLayout(getContext());
+        SharedPreferencesUtil.init(getContext());
+        FBConfigTools.getInstance().initFBConfigTools(getContext());
         FBState.currentViewState = FBViewState.LIGHT_MAKEUP;
         RxBus.get().post(FBEventAction.ACTION_SYNC_PROGRESS, "");
 

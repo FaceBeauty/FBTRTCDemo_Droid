@@ -72,9 +72,11 @@ public class ThirdBeautyActivity extends TRTCBaseActivity implements View.OnClic
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         FBBeautyFragment beautyFragment = new FBBeautyFragment();//美颜-美型-滤镜
+//        LightMakeupFragment lightMakeup = new LightMakeupFragment();//轻彩妆
         fragmentTransaction.add(R.id.fl_beauty_container, beautyFragment);
 
         fragmentTransaction.commit();
+
         //todo --- facebeauty end ---
         getSupportActionBar().hide();
 
@@ -175,6 +177,7 @@ public class ThirdBeautyActivity extends TRTCBaseActivity implements View.OnClic
                    isRenderInit = FBEffect.shareInstance().initTextureRenderer(srcFrame.width, srcFrame.height, FBRotationEnum.FBRotationClockwise0, isFrontCamera, 5);
                }
                dstFrame.texture.textureId = FBEffect.shareInstance().processTexture(srcFrame.texture.textureId);
+               Log.i(TAG, "onProcessVideoFrame: "+ FBEffect.shareInstance().isTracking());
                return dstFrame.texture.textureId;
            }
 
