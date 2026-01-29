@@ -68,16 +68,10 @@ public class ThirdBeautyActivity extends TRTCBaseActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third_beauty);
-        //todo --- facebeauty start ---
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        FBBeautyFragment beautyFragment = new FBBeautyFragment();//美颜-美型-滤镜
-//        LightMakeupFragment lightMakeup = new LightMakeupFragment();//轻彩妆
-        fragmentTransaction.add(R.id.fl_beauty_container, beautyFragment);
-
-        fragmentTransaction.commit();
-
-        //todo --- facebeauty end ---
+        //todo --- facebeauty start
+        addContentView(new FBPanelLayout(this).init(getSupportFragmentManager()),
+                new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        //todo --- facebeauty end
         getSupportActionBar().hide();
 
        // FURenderer.setup(getApplicationContext());
