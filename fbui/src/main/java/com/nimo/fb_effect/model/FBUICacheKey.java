@@ -11,7 +11,7 @@ public enum FBUICacheKey {
 //  FILTER_SELECT_POSITION(0,""),//选中了哪个滤镜
 
 //  FILTER_SELECT_NAME(0,""),//选中了哪个滤镜
-  FILTER_SELECT_NAME(0,"zhigan1"),//选中了哪个滤镜
+  FILTER_SELECT_NAME(0,"biaozhun"),//选中了哪个滤镜
   HAIR_SELECT_NAME(0,""),//选中了哪个美发
   HAIR_SELECT_POSITION(0,""),//选中了哪个美发
   EFFECT_FILTER_SELECT_POSITION,//选中了哪个趣味滤镜
@@ -24,6 +24,7 @@ public enum FBUICacheKey {
     LIGHT_MAKEUP_SELECT_NAME(0,""),//选中了哪个轻彩妆
     BEAUTY_MAKEUP_SELECT_POSITION(0,""), //选中了哪个轻彩妆;
     BEAUTY_MAKEUP_SELECT_NAME(0,""),//选中了哪个轻彩妆
+    BEAUTY_MAKE_UP_SELECT_POSITION(0,""), //选中了哪个美妆
 
     LIPSTICK_SELECT_POSITION(0,""),//选中了哪个口红
     EYEBROW_SELECT_POSITION(0,""),//选中了哪个眉毛
@@ -45,6 +46,9 @@ public enum FBUICacheKey {
     LIPSTICK_COLOR_NAME(0,"rouhefen"), //选中了哪个口红的颜色名称
     EYEBROW_COLOR_NAME(0,"roufenzong"), //选中了哪个眉毛的颜色名称
     BLUSH_COLOR_NAME(0,"richang"), //选中了哪个腮红的颜色名称
+    BEAUTY_BODY_SELECT_POSITION(-1,"长腿"),
+    GREENSCREEN_EDIT_POSITION,
+    GREENSCREEN_EDIT,
     ;
 
   int defaultInt;

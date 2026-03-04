@@ -86,7 +86,6 @@ public class LightMakeupConfig {
         public void setCategory(String category) { this.category = category;}
 
         public String getIcon() {
-            Log.i("gao", "getIcon: "+FBEffect.shareInstance().getStylePath() + File.separator + this.name + ".png");
             return FBEffect.shareInstance().getStylePath() + File.separator + this.name + ".png";
         }
 

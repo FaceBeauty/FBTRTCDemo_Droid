@@ -89,8 +89,7 @@ public class MakeUpFragment extends FBBaseLazyFragment implements MakeUpItemFrag
 
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
-                resetDialog.show(getChildFragmentManager(), "face_trim");
-//                resetDialog.show(getChildFragmentManager(), "beauty_makeup");
+                resetDialog.show(getChildFragmentManager(), "beauty_makeup");
             }
         });
 
@@ -103,7 +102,6 @@ public class MakeUpFragment extends FBBaseLazyFragment implements MakeUpItemFrag
             tags = { @Tag(FBEventAction.ACTION_SYNC_ITEM_CHANGED) })
     public void changedPoint(Object o) {
         adapter.notifyItemChanged(FBUICacheUtils.makeupPosition());
-//        adapter.notifyItemChanged(FBUICacheUtils.faceShapePosition())
     }
     @SuppressLint("NotifyDataSetChanged")
     @Override protected void onFragmentStartLazy() {
@@ -235,14 +233,6 @@ public class MakeUpFragment extends FBBaseLazyFragment implements MakeUpItemFrag
     @Override
     public void onDestroy() {
         super.onDestroy();
-        FBEffect.shareInstance().setMakeup(0, "type", "-1");//口红
-        FBEffect.shareInstance().setMakeup(1, "type", "-1");//眉毛
-        FBEffect.shareInstance().setMakeup(2, "type", "-1");//腮红
-
-        FBEffect.shareInstance().setMakeup(3, "name", "");//眼影
-        FBEffect.shareInstance().setMakeup(4, "name", "");//眼线
-        FBEffect.shareInstance().setMakeup(5, "name", "");//睫毛
-        FBEffect.shareInstance().setMakeup(6, "name", "");//美瞳
     }
 
     @Override

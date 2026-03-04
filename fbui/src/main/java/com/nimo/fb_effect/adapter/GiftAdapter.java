@@ -21,8 +21,6 @@ import com.nimo.facebeauty.model.FBItemEnum;
 import com.nimo.fb_effect.R;
 import com.nimo.fb_effect.model.FBDownloadState;
 import com.nimo.fb_effect.model.FBEventAction;
-import com.nimo.fb_effect.model.FBMaskConfig.FBMask;
-import com.nimo.fb_effect.model.FBMaskResEnum;
 import com.nimo.fb_effect.model.GiftConfig;
 import com.nimo.fb_effect.utils.FBSelectedPosition;
 import com.nimo.fb_effect.utils.FBUnZip;
@@ -48,7 +46,7 @@ public class GiftAdapter extends RecyclerView.Adapter<FBStickerViewHolder> {
 
     private Handler handler = new Handler();
 
-    private Map<String, String> downloadingMasks = new ConcurrentHashMap<>();
+    private Map<String, String> downloadingGifts = new ConcurrentHashMap<>();
 
     public GiftAdapter(List<GiftConfig.FbGift> giftList) {
         this.giftList = giftList;
@@ -103,7 +101,7 @@ public class GiftAdapter extends RecyclerView.Adapter<FBStickerViewHolder> {
             holder.stopLoadingAnimation();
         } else {
             //判断是否正在下载，如果正在下载，则显示加载动画
-            if (downloadingMasks.containsKey(fbGift.getName())) {
+            if (downloadingGifts.containsKey(fbGift.getName())) {
                 holder.downloadIV.setVisibility(View.GONE);
                 holder.loadingIV.setVisibility(View.VISIBLE);
                 holder.loadingBG.setVisibility(View.VISIBLE);
@@ -126,7 +124,7 @@ public class GiftAdapter extends RecyclerView.Adapter<FBStickerViewHolder> {
                     int currentPosition = holder.getAdapterPosition();
 
                     //如果已经在下载了，则不操作
-                    if (downloadingMasks.containsKey(fbGift.getName())) {
+                    if (downloadingGifts.containsKey(fbGift.getName())) {
                         return;
                     }
 
@@ -137,7 +135,7 @@ public class GiftAdapter extends RecyclerView.Adapter<FBStickerViewHolder> {
                             .enqueue(new DownloadListener2() {
                                 @Override
                                 public void taskStart(@NonNull DownloadTask task) {
-                                    downloadingMasks.put(fbGift.getName(), fbGift.getUrl());
+                                    downloadingGifts.put(fbGift.getName(), fbGift.getUrl());
                                     handler.post(new Runnable() {
                                         @Override
                                         public void run() {
@@ -148,7 +146,7 @@ public class GiftAdapter extends RecyclerView.Adapter<FBStickerViewHolder> {
 
                                 @Override
                                 public void taskEnd(@NonNull final DownloadTask task, @NonNull EndCause cause, @Nullable final Exception realCause) {
-                                    downloadingMasks.remove(fbGift.getName());
+                                    downloadingGifts.remove(fbGift.getName());
 
                                     if (cause == EndCause.COMPLETED) {
                                         new Thread(new Runnable() {
@@ -171,7 +169,7 @@ public class GiftAdapter extends RecyclerView.Adapter<FBStickerViewHolder> {
                                                     FBEffect.shareInstance().setARItem(FBItemEnum.FBItemGift.getValue(), fbGift.getName());
                                                     lastPosition = selectedPosition;
                                                     selectedPosition = currentPosition;
-                                                    FBSelectedPosition.POSITION_MASK = selectedPosition;
+                                                    FBSelectedPosition.POSITION_GIFT = selectedPosition;
 
                                                     handler.post(new Runnable() {
                                                         @Override

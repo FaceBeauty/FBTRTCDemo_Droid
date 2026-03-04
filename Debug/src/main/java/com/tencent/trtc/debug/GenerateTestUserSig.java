@@ -94,7 +94,7 @@ public class GenerateTestUserSig {
      * You can view your `SDKAppID` after creating an application in the [TRTC console](https://console.cloud.tencent.com/rav).
      * `SDKAppID` uniquely identifies a Tencent Cloud account.
      */
-    public static final int SDKAPPID = 140*****;
+    public static final int SDKAPPID = 1400663008;
 
     /**
      * 签名过期时间，建议不要设置的过短
@@ -109,7 +109,7 @@ public class GenerateTestUserSig {
      * Unit: second
      * Default value: 604800 (7 days)
      */
-    private static final int EXPIRETIME = 604800;
+    private static final int EXPIRETIME = 60****;
 
 
     /**
@@ -133,7 +133,7 @@ public class GenerateTestUserSig {
      * Note: this method is for testing only. Before commercial launch, please migrate the UserSig calculation code and key to your backend server to prevent key disclosure and traffic stealing.
      * Reference: https://cloud.tencent.com/document/product/647/17275#Server
      */
-    public static final String SECRETKEY = "d7ed135fc7198c6********716a0d5055b16c1bb7a3eb2e50a";
+    public static final String SECRETKEY = "d7ed135fc7198c6626************e094716a0d5055b16c1bb7a3eb2e50a";
 
     /**
      * 计算 UserSig 签名

@@ -223,15 +223,15 @@
 
       initWatermark();
       Log.e("backFrom------", FBState.currentViewState.name());
-        ivFbTrigger.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showPanel(FBViewState.BEAUTY);//美颜-美型-滤镜
-//                showPanel(FBViewState.LIGHT_MAKEUP);//轻彩妆
-//       showPanel(FBViewState.MASK);//面具
-//       showPanel(FBViewState.STICKER);//贴纸
-            }
-        });
+      ivFbTrigger.setOnClickListener(new OnClickListener() {
+          @Override
+          public void onClick(View view) {
+              showPanel(FBViewState.BEAUTY);//美颜-美型-滤镜
+              //                showPanel(FBViewState.LIGHT_MAKEUP);//轻彩妆
+              //       showPanel(FBViewState.MASK);//面具
+              //       showPanel(FBViewState.STICKER);//贴纸
+          }
+      });
     }
 
 
@@ -596,7 +596,9 @@
               FBState.currentViewState = viewState;
               FBState.currentSecondViewState = FBViewState.LIGHT_MAKEUP;
               break;
+
       }
+
 
     }
     /**

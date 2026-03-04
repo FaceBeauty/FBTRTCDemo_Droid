@@ -26,6 +26,7 @@ import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
 import com.nimo.facebeauty.FBEffect;
+import com.nimo.facebeauty.model.FBMakeupEnum;
 import com.nimo.fb_effect.FBPanelLayout;
 import com.nimo.fb_effect.R;
 import com.nimo.fb_effect.base.FBBaseFragment;
@@ -139,9 +140,7 @@ public class BeautyMakeUpFragment extends FBBaseFragment  implements MakeUpFragm
             }
 
             @Override public Fragment getFragmentForPage(int position) {
-                Log.e("position:", position + "");
                 return new MakeUpFragment();
-//                return null;
             }
         };
         indicatorViewPager.setAdapter(fragmentPagerAdapter);
@@ -228,6 +227,25 @@ public class BeautyMakeUpFragment extends FBBaseFragment  implements MakeUpFragm
         super.onDestroyView();
 
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //取消美妆
+        for (int i = 0; i < 7; i++) {
+            FBUICacheUtils.setMakeupItemPostionCache(i, 0);
+            if (i<3){
+                //0-口红  1-眉毛  2-腮红
+                FBUICacheUtils.setMakeupItemNameOrTypeCache(i,"-1");
+                FBEffect.shareInstance().setMakeup(i, "type", "-1");
+            }else {
+              //3-眼影  4-眼线  5-睫毛  6-美瞳
+                FBEffect.shareInstance().setMakeup(i, "name", "");
+                FBUICacheUtils.setMakeupItemNameOrTypeCache(i,"");
+            }
+        }
+    }
+
     @Override
     public void onRequestChangePagerHeight(int heightPx) {
         if (htPager == null) return;

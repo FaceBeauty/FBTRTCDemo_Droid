@@ -100,8 +100,8 @@ public class ARGiftFragment extends FBBaseFragment {
 
     @Override
     public void onDestroy() {
-        FBEffect.shareInstance().setARItem(FBItemEnum.FBItemMask.getValue(), "");
-        FBSelectedPosition.POSITION_MASK = -1;
+        FBEffect.shareInstance().setARItem(FBItemEnum.FBItemGift.getValue(),"");
+        FBSelectedPosition.POSITION_GIFT = -1;
         super.onDestroy();
     }
 }

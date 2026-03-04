@@ -20,6 +20,7 @@ import com.hwangjr.rxbus.RxBus;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
+import com.nimo.facebeauty.model.FBBodyBeautyEnum;
 import com.nimo.facebeauty.model.FBMakeupEnum;
 import com.nimo.fb_effect.R;
 import com.nimo.fb_effect.model.FBEventAction;
@@ -33,6 +34,7 @@ import com.nimo.fb_effect.model.FBBeautyKey;
 import com.nimo.fb_effect.model.FBBeautyParam;
 import com.nimo.fb_effect.model.FBState;
 import com.nimo.fb_effect.utils.DpUtils;
+import com.nimo.fb_effect.utils.FBSelectedPosition;
 import com.nimo.fb_effect.utils.FBUICacheUtils;
 import com.nimo.facebeauty.FBEffect;
 import com.nimo.facebeauty.model.FBBeautyEnum;
@@ -127,6 +129,98 @@ public class FBBarView extends LinearLayout implements SeekBar.OnSeekBarChangeLi
     public void syncProgress(Object o) {
         Log.e("面板1", FBState.currentViewState.name());
         Log.e("面板2", FBState.currentSecondViewState.name());
+        //人像抠图——绿幕抠图——相似度
+        if (FBState.currentViewState == FBViewState.PORTRAIT
+                && FBState.currentSecondViewState == FBViewState.GREENSCREEN_SIMILARITY) {
+            setVisibility(VISIBLE);
+
+            int progress = FBSelectedPosition.VALUE_SIMILARITY;
+            Log.e("当前模块:", "相似度");
+            Log.e("相似度滑动参数同步:", progress + "");
+            fbSeekBar.setProgress(progress);
+            styleNormal(FBSelectedPosition.VALUE_SIMILARITY);
+            return;
+        }
+
+        //人像抠图——绿幕抠图——平滑度
+        if (FBState.currentViewState == FBViewState.PORTRAIT
+                && FBState.currentSecondViewState == FBViewState.GREENSCREEN_SMOOTHNESS) {
+            setVisibility(VISIBLE);
+
+            int progress = FBSelectedPosition.VALUE_SMOOTHNESS;
+            Log.e("当前模块:", "平滑度");
+            Log.e("平滑度滑动参数同步:", progress + "");
+            fbSeekBar.setProgress(progress);
+            styleNormal(FBSelectedPosition.VALUE_SMOOTHNESS);
+            return;
+        }
+
+        //人像抠图——绿幕抠图——透明度
+        if (FBState.currentViewState == FBViewState.PORTRAIT
+                && FBState.currentSecondViewState == FBViewState.GREENSCREEN_ALPHA) {
+            setVisibility(VISIBLE);
+
+            int progress = FBSelectedPosition.VALUE_ALPHA;
+            Log.e("当前模块:", "透明度");
+            Log.e("透明度滑动参数同步:", progress + "");
+            fbSeekBar.setProgress(progress);
+            styleNormal(FBSelectedPosition.VALUE_ALPHA);
+            return;
+        }
+
+        //人像抠图——绿幕抠图——祛色度
+        if (FBState.currentViewState == FBViewState.PORTRAIT
+                && FBState.currentSecondViewState == FBViewState.GREENSCREEN_DECOLOR) {
+            setVisibility(VISIBLE);
+
+            int progress = FBSelectedPosition.VALUE_DECOLOR;
+            Log.e("当前模块:", "祛色度");
+            Log.e("祛色度滑动参数同步:", progress + "");
+            fbSeekBar.setProgress(progress);
+            styleNormal(FBSelectedPosition.VALUE_DECOLOR);
+            return;
+        }
+        //人像抠图
+        if (FBState.currentViewState == FBViewState.PORTRAIT) {
+            setVisibility(INVISIBLE);
+        }
+
+        //人像抠图——绿幕抠图——背景
+        if (FBState.currentSecondViewState == FBViewState.GREENSCREEN_BACKGROUND) {
+            setVisibility(INVISIBLE);
+        }
+        //美体
+        if (FBState.currentViewState == FBViewState.BEAUTY_BODY
+                && FBState.currentSecondViewState == FBViewState.BEAUTY_BODY) {
+
+            //美型效果未选中，隐藏滑动条
+            if (FBUICacheUtils.beautyBodyPosition() == -1) {
+                setVisibility(INVISIBLE);
+                return;
+            } else {
+                setVisibility(VISIBLE);
+            }
+
+            int progress = FBUICacheUtils
+                    .beautyBodyValue(FBState.currentBeautyBody);
+            fbSeekBar.setProgress(progress);
+
+            //根据参数 选中哪种滑动条
+            switch (FBState.currentBeautyBody) {
+                case long_legs:
+                case slimming_down:
+                case slender_waist:
+                case beautiful_shoulder:
+                case hip_repair:
+                case thin_thigh:
+                case swan_neck:
+                case breast_augmentation:
+                    styleNormal(progress);
+                    break;
+
+            }
+
+        }
         //美妆-口红
         if (FBState.currentViewState == FBViewState.BEAUTY_MAKE_UP
                 && FBState.currentSecondViewState == FBViewState.MAKEUP_LIPSTICK) {
@@ -536,6 +630,122 @@ public class FBBarView extends LinearLayout implements SeekBar.OnSeekBarChangeLi
         }
         RxBus.get().post(FBEventAction.ACTION_RENDER_PHOTO, true);
 
+
+        //人像抠图——绿幕抠图——相似度
+        if (FBState.currentViewState == FBViewState.PORTRAIT
+                && FBState.currentSecondViewState == FBViewState.GREENSCREEN_SIMILARITY) {
+
+            //滑动条变化时，将重置按钮设为可选
+            if (!FBUICacheUtils.greenscreenResetEnable()) {
+                FBUICacheUtils.greenscreenResetEnable(true);
+                RxBus.get().post(FBEventAction.ACTION_SYNC_RESET, "");
+            }
+            styleNormal(progress);
+            Log.e("绿幕抠图——相似度", progress + "%");
+            FBSelectedPosition.VALUE_SIMILARITY = progress;
+            // FBUICacheUtils.beautySimilarityValue(progress);
+
+            FBEffect.shareInstance().setChromaKeyingParams(0, progress);
+            return;
+        }
+
+        //人像抠图——绿幕抠图——平滑度
+        if (FBState.currentViewState == FBViewState.PORTRAIT
+                && FBState.currentSecondViewState == FBViewState.GREENSCREEN_SMOOTHNESS) {
+            //滑动条变化时，将重置按钮设为可选
+            if (!FBUICacheUtils.greenscreenResetEnable()) {
+                FBUICacheUtils.greenscreenResetEnable(true);
+                RxBus.get().post(FBEventAction.ACTION_SYNC_RESET, "");
+            }
+            styleNormal(progress);
+            Log.e("绿幕抠图——平滑度", progress + "%");
+            // FBUICacheUtils.beautySmoothnessValue(progress);
+            FBSelectedPosition.VALUE_SMOOTHNESS = progress;
+
+            FBEffect.shareInstance().setChromaKeyingParams(1, progress);
+            return;
+        }
+
+        //人像抠图——绿幕抠图——祛色度
+        if (FBState.currentViewState == FBViewState.PORTRAIT
+                && FBState.currentSecondViewState == FBViewState.GREENSCREEN_DECOLOR) {
+            //滑动条变化时，将重置按钮设为可选
+            if (!FBUICacheUtils.greenscreenResetEnable()) {
+                FBUICacheUtils.greenscreenResetEnable(true);
+                RxBus.get().post(FBEventAction.ACTION_SYNC_RESET, "");
+            }
+            styleNormal(progress);
+            Log.e("绿幕抠图——祛色度", progress + "%");
+            // FBUICacheUtils.beautyAlphaValue(progress);
+            FBSelectedPosition.VALUE_DECOLOR = progress;
+            FBEffect.shareInstance().setChromaKeyingParams(2, progress);
+            return;
+        }
+
+        //人像抠图——绿幕抠图——透明度
+        if (FBState.currentViewState == FBViewState.PORTRAIT
+                && FBState.currentSecondViewState == FBViewState.GREENSCREEN_ALPHA) {
+            //滑动条变化时，将重置按钮设为可选
+            if (!FBUICacheUtils.greenscreenResetEnable()) {
+                FBUICacheUtils.greenscreenResetEnable(true);
+                RxBus.get().post(FBEventAction.ACTION_SYNC_RESET, "");
+            }
+            styleNormal(progress);
+            Log.e("绿幕抠图——透明度", progress + "%");
+            // FBUICacheUtils.beautyAlphaValue(progress);
+            FBSelectedPosition.VALUE_ALPHA = progress;
+            FBEffect.shareInstance().setChromaKeyingParams(3, progress);
+            return;
+        }
+        //美体
+        if (FBState.currentViewState == FBViewState.BEAUTY_BODY
+                && FBState.currentSecondViewState == FBViewState.BEAUTY_BODY) {
+
+            //滑动条变化时，将重置按钮设为可选
+            if (!FBUICacheUtils.beautyBodyResetEnable()) {
+                FBUICacheUtils.beautyBodyResetEnable(true);
+                RxBus.get().post(FBEventAction.ACTION_SYNC_RESET, "");
+            }
+
+            switch (FBState.getCurrentBeautyBody()) {
+                case long_legs: //长腿
+                    FBEffect.shareInstance().setBodyBeauty(FBBodyBeautyEnum.HTBodyBeautyLegSlimming.getValue(), progress);
+                    styleNormal(progress);
+                    break;
+                case slimming_down://瘦身
+                    styleNormal(progress);
+                    FBEffect.shareInstance().setBodyBeauty(FBBodyBeautyEnum.HTBodyBeautyBodyThinning.getValue(), progress);
+                    break;
+                case slender_waist://细腰
+                    styleNormal(progress);
+                    FBEffect.shareInstance().setBodyBeauty(FBBodyBeautyEnum.HTBodyBeautyWaistSlimming.getValue(), progress);
+                    break;
+                case beautiful_shoulder://美肩
+                    styleNormal(progress);
+                    FBEffect.shareInstance().setBodyBeauty(FBBodyBeautyEnum.HTBodyBeautyShoulderSlimming.getValue(), progress);
+                    break;
+                case hip_repair: //修胯
+                    styleNormal(progress);
+                    FBEffect.shareInstance().setBodyBeauty(FBBodyBeautyEnum.HTBodyBeautyHipTrimming.getValue(), progress);
+                    break;
+                case thin_thigh: //瘦大腿
+                    styleNormal(progress);
+                    FBEffect.shareInstance().setBodyBeauty(FBBodyBeautyEnum.HTBodyBeautyThighThinning.getValue(), progress);
+                    break;
+                case swan_neck: //天鹅颈
+                    styleNormal(progress);
+                    FBEffect.shareInstance().setBodyBeauty(FBBodyBeautyEnum.HTBodyBeautyNeckSlimming.getValue(), progress);
+                    break;
+                case breast_augmentation: //丰胸
+                    styleNormal(progress);
+                    FBEffect.shareInstance().setBodyBeauty(FBBodyBeautyEnum.HTBodyBeautyChestEnlarging.getValue(), progress);
+                    break;
+
+            }
+            FBUICacheUtils.beautyBodyValue(FBState.getCurrentBeautyBody(),progress);
+
+            return;
+        }
         //美颜——美肤——美肤
         if (FBState.currentViewState == FBViewState.BEAUTY
             && FBState.currentSecondViewState == FBViewState.BEAUTY_SKIN) {

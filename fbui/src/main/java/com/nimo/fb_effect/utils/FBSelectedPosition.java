@@ -17,7 +17,7 @@ public class FBSelectedPosition {
     public static int POSITION_GREEN_SCREEN = -1;
     public static int POSITION_AISEGMENTATION = -1;
     public static int POSITION_THREED = -1;
-    public static int POSITION_GESTURE = 0;
+    public static int POSITION_GESTURE = -1;
     public static int POSITION_GREENSCREEN_EDIT = -1;
 
 

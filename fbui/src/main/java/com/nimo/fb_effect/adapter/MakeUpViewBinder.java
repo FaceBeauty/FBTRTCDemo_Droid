@@ -78,7 +78,6 @@ public class MakeUpViewBinder
 
     holder.itemView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-          Log.i("gao", "onClick: "+item.name());
           holder.itemView.setSelected(true);
           getAdapter().notifyItemChanged(FBUICacheUtils.getBeautyMakeUpPosition());
           FBUICacheUtils.setBeautyMakeupPosition(getPosition(holder));

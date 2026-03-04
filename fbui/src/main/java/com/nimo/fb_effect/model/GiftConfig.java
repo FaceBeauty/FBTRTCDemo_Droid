@@ -56,7 +56,6 @@ public class GiftConfig {
     public void setName(String name) { this.name = name;}
 
     public String getIcon() {
-        Log.i("gao", "getIcon: "+FBEffect.shareInstance().getARItemUrlBy(FBItemEnum.FBItemGift.getValue()) + icon);
       return FBEffect.shareInstance().getARItemUrlBy(FBItemEnum.FBItemGift.getValue()) + icon;
     }
 

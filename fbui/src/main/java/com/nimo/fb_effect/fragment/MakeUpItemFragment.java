@@ -244,7 +244,7 @@ public class MakeUpItemFragment extends FBBaseLazyFragment {
             requireParentFragment()
                     .getChildFragmentManager()
                     .popBackStack();
-           FBState.currentViewState = FBViewState.HIDE;
+           FBState.currentViewState = FBViewState.BEAUTY_MAKE_UP;
         });
         changeTheme(null);
         items.clear();
@@ -441,7 +441,6 @@ public class MakeUpItemFragment extends FBBaseLazyFragment {
                 showCustomToast(getBlushColorName(position));
                 FBEffect.shareInstance().setMakeup(FBMakeupEnum.HTMakeupBlush.getValue(), "color", getBlushColorCode(position));
                 break;
-            // 省略其他case...
             default:
                 break;
         }

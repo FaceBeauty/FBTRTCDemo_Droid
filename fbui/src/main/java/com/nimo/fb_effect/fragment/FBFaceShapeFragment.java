@@ -112,7 +112,6 @@ public class FBFaceShapeFragment extends FBBaseLazyFragment {
     @Subscribe(thread = EventThread.MAIN_THREAD,
             tags = { @Tag(FBEventAction.ACTION_SYNC_RESET) })
     public void syncReset(String message) {
-        Log.i("gao", "onBindViewHolder: "+FBUICacheUtils.faceShapeResetEnable());
         btnReset.setEnabled(FBUICacheUtils.faceShapeResetEnable());
         ivReset.setEnabled(FBUICacheUtils.faceShapeResetEnable());
         tvReset.setEnabled(FBUICacheUtils.faceShapeResetEnable());

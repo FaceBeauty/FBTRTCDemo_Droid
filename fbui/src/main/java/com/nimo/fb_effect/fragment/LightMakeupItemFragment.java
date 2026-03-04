@@ -68,7 +68,6 @@ public class LightMakeupItemFragment extends FBBaseLazyFragment {
 
                 @Override public void fail(Exception error) {
                     error.printStackTrace();
-                    Log.i("gao", "fail: "+error.getMessage());
                     Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });

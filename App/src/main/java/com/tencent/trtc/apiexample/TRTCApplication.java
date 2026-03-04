@@ -17,7 +17,7 @@ public class TRTCApplication extends Application {
         MultiDex.install(this);
         instance = this;
         //todo --- facebeauty start ---
-        FBEffect.shareInstance().initFaceBeauty( this, "YOUR_APP_ID", new InitCallback() {
+        FBEffect.shareInstance().initFaceBeauty( this, "YOUR_APPID", new InitCallback() {
 
             @Override public void onInitSuccess() {
 
@@ -27,6 +27,7 @@ public class TRTCApplication extends Application {
 
             }
         });
+
         //todo --- facebeauty end ---
     }
 

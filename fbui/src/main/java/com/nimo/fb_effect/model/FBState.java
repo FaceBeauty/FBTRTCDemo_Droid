@@ -38,6 +38,8 @@ public class FBState {
   public static FBViewState currentAR = FBViewState.AR_PROP;
   //美妆
   public static MakeUpEnum currentMakeUp =MakeUpEnum.LIPSTICK;
+    // 当前选中了哪个美体参数
+    public static BeautyBody currentBeautyBody = BeautyBody.long_legs;
   //释放黑色主题
   public static boolean isDark = true;
 
@@ -54,6 +56,12 @@ public class FBState {
     }
     public static void setCurrentFaceShape(FBFaceShape currentFaceShape) {
         FBState.currentFaceShape = currentFaceShape;
+    }
+    public static BeautyBody getCurrentBeautyBody() {
+        return currentBeautyBody;
+    }
+    public static void setCurrentBeautyBody(BeautyBody currentBeautyBody) {
+        FBState.currentBeautyBody = currentBeautyBody;
     }
   //释放
   public static void release() {

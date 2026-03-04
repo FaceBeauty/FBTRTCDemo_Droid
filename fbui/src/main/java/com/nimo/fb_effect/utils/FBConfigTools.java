@@ -11,6 +11,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nimo.facebeauty.model.FBMakeupEnum;
+import com.nimo.fb_effect.model.AISegmentationConfig;
 import com.nimo.fb_effect.model.BlushConfig;
 import com.nimo.fb_effect.model.EyebrowConfig;
 import com.nimo.fb_effect.model.EyelashConfig;
@@ -25,7 +26,9 @@ import com.nimo.fb_effect.model.FBBeautyFilterConfig;
 import com.nimo.facebeauty.FBEffect;
 import com.nimo.facebeauty.model.FBItemEnum;
 import com.nimo.fb_effect.model.FBWatermarkConfig;
+import com.nimo.fb_effect.model.GestureConfig;
 import com.nimo.fb_effect.model.GiftConfig;
+import com.nimo.fb_effect.model.GreenScreenConfig;
 import com.nimo.fb_effect.model.LightMakeupConfig;
 import com.nimo.fb_effect.model.LipstickConfig;
 import com.nimo.fb_effect.model.Makeup;
@@ -57,6 +60,9 @@ public class FBConfigTools {
   //面具配置的文件路径
   private String PATH_HAIR;
   private String PATH_GIFT;
+  private String PATH_GESTURE;
+  private String PATH_GREEN_SCREEN;
+  private String PATH_AISEGMENTATION;
     //轻美妆配置的文件路径
   private String PATH_LIGHT_MAKEUP;
 
@@ -87,6 +93,7 @@ public class FBConfigTools {
   private FBFunnyFilterConfig funnyFilterList;
   private FBWatermarkConfig watermarkList;
   private FBMaskConfig maskList;
+  private GestureConfig gestureList;
   private FBHairConfig hairList;
   private FBEffectFilterConfig effectFilterList;//特效滤镜
   private FBBeautyFilterConfig beautyFilterList;
@@ -99,6 +106,8 @@ public class FBConfigTools {
     private EyelashConfig eyelashList;
     private PupilsConfig pupilsList;
     private GiftConfig giftList;
+    private GreenScreenConfig greenScreenList;
+    private AISegmentationConfig segmentationList;
 
   private final ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
 
@@ -138,6 +147,12 @@ public class FBConfigTools {
 
       //礼物配置的文件路径
       PATH_GIFT = FBEffect.shareInstance().getARItemPathBy(FBItemEnum.FBItemGift.getValue()) + File.separator + "gift_config.json";
+      //手势特效
+      PATH_GESTURE =FBEffect.shareInstance().getGestureEffectPath() + File.separator + "gesture_effect_config.json";
+      //绿幕配置文件
+      PATH_GREEN_SCREEN = FBEffect.shareInstance().getChromaKeyingPath() + File.separator + "gsseg_effect_config.json";
+      //人像抠图配置文件
+      PATH_AISEGMENTATION = FBEffect.shareInstance().getAISegEffectPath() + File.separator + "aiseg_effect_config.json";
   }
 
   public static FBConfigTools getInstance() {
@@ -155,6 +170,10 @@ public class FBConfigTools {
     if (maskList == null) return null;
     return maskList;
   }
+    public GestureConfig getGestureList() {
+        if (gestureList == null) return null;
+        return gestureList;
+    }
   public FBHairConfig getHairList() {
     if (hairList == null) return null;
     return hairList;
@@ -213,6 +232,14 @@ public class FBConfigTools {
         if (giftList == null) return null;
         return giftList;
     }
+    public GreenScreenConfig getGreenScreenList() {
+        if (greenScreenList == null) return null;
+        return greenScreenList;
+    }
+    public AISegmentationConfig getAISegmentationList() {
+        if (segmentationList == null) return null;
+        return segmentationList;
+    }
 
   /**
    * 特效滤镜
@@ -223,6 +250,105 @@ public class FBConfigTools {
     return effectFilterList;
   }
 
+
+
+    /**
+     * 从缓存文件中获取AI抠图配置文件
+     */
+    public void getAISegmentationConfig(FBConfigCallBack<List<AISegmentationConfig.AISegmentation>> callBack) {
+        cachedThreadPool.execute(new Runnable() {
+            @Override public void run() {
+                try {
+
+                    String result = getFileString(PATH_AISEGMENTATION);
+
+                    if (TextUtils.isEmpty(result)) {
+                        Log.i("读取抠图配置文件：", "内容为空");
+                        uiHandler.post(new Runnable() {
+                            @Override public void run() {
+                                callBack.success(new ArrayList<>());
+                            }
+                        });
+
+                    } else {
+                        segmentationList = new Gson().fromJson(result, new TypeToken<AISegmentationConfig>() {}.getType());
+                        uiHandler.post(new Runnable() {
+                            @Override public void run() {
+                                callBack.success(segmentationList.getSegmentations());
+                            }
+                        });
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    callBack.fail(e);
+                }
+            }
+        });
+    }
+
+    /**
+     * 更新AI抠图缓存文件
+     */
+    public void segmentationDownload(String content) {
+        cachedThreadPool.execute(new Runnable() {
+            @Override public void run() {
+                modifyFile(content, PATH_AISEGMENTATION);
+            }
+        });
+    }
+    /**
+     * 从缓存文件中获取绿幕配置文件
+     */
+    public void getGreenScreenConfig(FBConfigCallBack<List<GreenScreenConfig.GreenScreen>> callBack) {
+        cachedThreadPool.execute(new Runnable() {
+            @Override public void run() {
+
+                try {
+                    String result = getFileString(PATH_GREEN_SCREEN);
+
+                    if (TextUtils.isEmpty(result)) {
+                        Log.i("读取绿幕配置文件：", "内容为空");
+                        uiHandler.post(new Runnable() {
+                            @Override public void run() {
+                                callBack.success(new ArrayList<>());
+                            }
+                        });
+
+                    } else {
+                        greenScreenList = new Gson().fromJson(result, GreenScreenConfig.class);
+                        uiHandler.post(new Runnable() {
+                            @Override public void run() {
+                                callBack.success(greenScreenList.getGreenScreens());
+                            }
+                        });
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    callBack.fail(e);
+                }
+
+
+            }
+        });
+    }
+
+    /**
+     * 更新绿幕缓存文件
+     */
+    public void greenScreenDownload(String content) {
+        cachedThreadPool.execute(new Runnable() {
+            @Override public void run() {
+                modifyFile(content, PATH_GREEN_SCREEN);
+            }
+        });
+    }
+  
+  
+  
+  
+  
     /**
      * 获取缓存文件中礼物配置
      */
@@ -670,6 +796,39 @@ public class FBConfigTools {
       }
     });
   }
+    /**
+     * 获取缓存文件中手势配置
+     */
+    public void getGesturesConfig(FBConfigCallBack<List<GestureConfig.Gesture>> callBack) {
+        cachedThreadPool.execute(new Runnable() {
+            @Override public void run() {
+                try {
+                    String res = getFileString(PATH_GESTURE);
+                    if (TextUtils.isEmpty(res)) {
+                        uiHandler.post(new Runnable() {
+                            @Override public void run() {
+                                callBack.success(new ArrayList<>());
+                            }
+                        });
+                    } else {
+                        gestureList = new Gson().fromJson(res, new TypeToken<GestureConfig>() {}.getType());
+                        uiHandler.post(new Runnable() {
+                            @Override public void run() {
+                                callBack.success(getGestureList().getGestures());
+                            }
+                        });
+                    }
+
+                } catch (Exception e) {
+                    uiHandler.post(new Runnable() {
+                        @Override public void run() {
+                            callBack.fail(e);
+                        }
+                    });
+                }
+            }
+        });
+    }
   /**
    * 获取缓存文件中美发配置
    */
@@ -711,7 +870,6 @@ public class FBConfigTools {
             @Override public void run() {
                 try {
                     String res = getFileString(PATH_LIGHT_MAKEUP);
-                    Log.i("gao", "getLigMakeupConfig:== "+res);
                     if (TextUtils.isEmpty(res)) {
                         uiHandler.post(new Runnable() {
                             @Override public void run() {
@@ -730,7 +888,6 @@ public class FBConfigTools {
                 } catch (Exception e) {
                     uiHandler.post(new Runnable() {
                         @Override public void run() {
-                            Log.i("gao", "getLigMakeupConfig: =="+e.getMessage());
                             callBack.fail(e);
                         }
                     });
@@ -793,6 +950,18 @@ public class FBConfigTools {
       }
     });
   }
+    /**
+     * 更新gesture文件
+     *
+     * @param content json 内容
+     */
+    public void gestureDownload(final String content) {
+        cachedThreadPool.execute(new Runnable() {
+            @Override public void run() {
+                modifyFile(content, PATH_GESTURE);
+            }
+        });
+    }
   /**
    * 更新美发文件
    */
@@ -986,6 +1155,30 @@ public class FBConfigTools {
         } catch (IOException e) {
           e.printStackTrace();
         }
+          String newAISegmentation;
+          try {
+              newAISegmentation = getJsonString(context, "aisegmentation/aisegmentations.json");
+              modifyFile(newAISegmentation, PATH_AISEGMENTATION);
+          } catch (IOException e) {
+              e.printStackTrace();
+          }
+
+          String newThreed;
+
+          String newGreenScreen;
+          try {
+              newGreenScreen = getJsonString(context, "greenscreen/greenscreens.json");
+              modifyFile(newGreenScreen, PATH_GREEN_SCREEN);
+          } catch (IOException e) {
+              e.printStackTrace();
+          }
+
+          try {
+              String newInteractions = getJsonString(context, "gesture/gestures.json");
+              modifyFile(newInteractions, PATH_GESTURE);
+          } catch (IOException e) {
+              e.printStackTrace();
+          }
       }
     });
   }

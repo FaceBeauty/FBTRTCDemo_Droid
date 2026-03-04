@@ -2,6 +2,13 @@ package com.nimo.fb_effect.utils;
 
 import android.content.Context;
 import android.util.Log;
+
+import com.nimo.fb_effect.model.BeautyBody;
+import com.nimo.fb_effect.model.BlushConfig;
+import com.nimo.fb_effect.model.EyebrowConfig;
+import com.nimo.fb_effect.model.EyelashConfig;
+import com.nimo.fb_effect.model.EyelineConfig;
+import com.nimo.fb_effect.model.EyeshadowConfig;
 import com.nimo.fb_effect.model.FBBeautyKey;
 import com.nimo.fb_effect.model.FBBeautyParam;
 import com.nimo.fb_effect.model.FBFaceShape;
@@ -10,6 +17,13 @@ import com.nimo.fb_effect.model.FBState;
 import com.nimo.fb_effect.model.FBUICacheKey;
 import com.nimo.facebeauty.FBEffect;
 import com.nimo.facebeauty.model.FBFilterEnum;
+import com.nimo.fb_effect.model.LipstickConfig;
+import com.nimo.fb_effect.model.MakeUpEnum;
+import com.nimo.fb_effect.model.Makeup;
+import com.nimo.fb_effect.model.PupilsConfig;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ui缓存工具类
@@ -73,6 +87,16 @@ public class FBUICacheUtils {
         FBEffect.shareInstance().setReshape(FBBeautyParam.FBReshapeCheekNarrowing, 15);//窄脸15
         //轻美妆
 //        FBEffect.shareInstance().setStyle(FBUICacheUtils.getLightMakeupName(),FBUICacheUtils.getL );//窄脸15
+        for (int i = 0; i < 7; i++) {
+            if (i >= 0 && i <= 2) {
+                FBEffect.shareInstance().setMakeup(i, "type", getMakeupItemNameOrTypeCache(i));
+                FBEffect.shareInstance().setMakeup(i, "color", getMakeupItemColorCache(i));
+            } else {
+                FBEffect.shareInstance().setMakeup(i, "name", getMakeupItemNameOrTypeCache(i));
+            }
+
+            FBEffect.shareInstance().setMakeup(i, "value", String.valueOf(getMakeupItemValueCache(i, getMakeupItemNameOrTypeCache(i))));
+        }
     }
 
     //---------美肤选中了哪个-------------------
@@ -100,6 +124,20 @@ public class FBUICacheUtils {
     public static void beautyFaceTrimPosition(int position) {
         SharedPreferencesUtil.put(FBUICacheKey.BEAUTY_FACE_TRIM_SELECT_POSITION.name(),
             position);
+    }
+
+
+    //-------------------------------------------------
+    //---------------美体----------------------------------
+    public static int beautyBodyPosition() {
+        return SharedPreferencesUtil
+                .get(FBUICacheKey.BEAUTY_BODY_SELECT_POSITION.name(),
+                        FBUICacheKey.BEAUTY_BODY_SELECT_POSITION.getDefaultInt());
+    }
+
+    public static void beautyBodyPosition(int position) {
+        SharedPreferencesUtil.put(FBUICacheKey.BEAUTY_BODY_SELECT_POSITION.name(),
+                position);
     }
 
 
@@ -328,6 +366,49 @@ public class FBUICacheUtils {
     public static void previewInitialHeight(int height) {
         SharedPreferencesUtil.put("previewInitialHeight", height);
     }
+    //---------------相似度----------------------------------
+
+    public static int beautyEditPosition() {
+
+        return SharedPreferencesUtil.get(FBUICacheKey.GREENSCREEN_EDIT_POSITION.name(),
+                FBUICacheKey.GREENSCREEN_EDIT_POSITION.getDefaultInt());
+    }
+
+    public static void beautyEditPosition(int position) {
+        SharedPreferencesUtil.put(FBUICacheKey.GREENSCREEN_EDIT_POSITION.name(), position);
+    }
+
+    public static int beautySimilarityValue() {
+        return SharedPreferencesUtil.get("similarity", 100);
+    }
+
+    public static void beautySimilarityValue(int value) {
+        SharedPreferencesUtil.put("similarity", value);
+    }
+    //-------------------------------------------------
+
+    //---------------平滑度----------------------------------
+
+    public static int beautySmoothnessValue() {
+        return SharedPreferencesUtil.get("smoothness", 100);
+    }
+
+    public static void beautySmoothnessValue(int value) {
+        SharedPreferencesUtil.put("smoothness", value);
+    }
+    //-------------------------------------------------
+
+    //---------------透明度----------------------------------
+
+    public static int beautyAlphaValue() {
+        return SharedPreferencesUtil.get("alpha", 100);
+    }
+
+    public static void beautyAlphaValue(int value) {
+        SharedPreferencesUtil.put("alpha", value);
+    }
+
+    //-------------------------------------------------
 
     /**
      * 获取美肤默认参数
@@ -504,6 +585,34 @@ public class FBUICacheUtils {
             defaultValue);
 
     }
+    //---------------美体子功能参数----------------------------------
+    public static int beautyBodyValue(BeautyBody key) {
+        int defaultValue = 0;
+
+        switch (key) {
+            case long_legs:
+            case slimming_down:
+            case slender_waist:
+            case beautiful_shoulder:
+            case hip_repair:
+            case thin_thigh:
+            case swan_neck:
+            case breast_augmentation:
+                defaultValue = 0;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + key);
+        }
+
+        return SharedPreferencesUtil.get("beauty_body_" + key.name(),
+                defaultValue);
+
+    }
+    public static void beautyBodyValue(BeautyBody key, int progress) {
+        SharedPreferencesUtil
+                .put("beauty_body_" + key.name(),
+                        progress);
+    }
     //---------------　美妆缓存　----------------------------------
 
     /**
@@ -548,6 +657,13 @@ public class FBUICacheUtils {
 
 
     //----------------------是否可用重置---------------------------
+    public static void greenscreenResetEnable(boolean enable) {
+        SharedPreferencesUtil.put("greenscreen_enable", enable);
+    }
+
+    public static boolean greenscreenResetEnable() {
+        return SharedPreferencesUtil.get("greenscreen_enable", false);
+    }
 
     public static void beautySkinResetEnable(boolean enable) {
         SharedPreferencesUtil.put("skin_enable", enable);
@@ -571,6 +687,14 @@ public class FBUICacheUtils {
     public static boolean beautyFaceTrimResetEnable() {
         return SharedPreferencesUtil.get("face_trim_enable", false);
     }
+    //美体
+    public static void beautyBodyResetEnable(boolean enable) {
+        SharedPreferencesUtil.put("beauty_body_enable", enable);
+    }
+
+    public static boolean beautyBodyResetEnable() {
+        return SharedPreferencesUtil.get("beauty_body_enable", false);
+    }
 
 
     //------------------重置相关---------------------------
@@ -583,6 +707,15 @@ public class FBUICacheUtils {
         beautyFaceTrimPosition(-1);
         initCache(false);
         FBState.currentFaceTrim = FBFaceTrim.EYE_ENLARGING;
+    }
+    public static void resetBeautyBodyValue(Context context) {
+        BeautyBody[] items = BeautyBody.values();
+        for (BeautyBody item : items) {
+            SharedPreferencesUtil.remove(context, "beauty_body_" + item.name());
+        }
+        beautyBodyPosition(-1);
+        initCache(false);
+//        FBState.currentBeautyBody = BeautyBody.long_legs;
     }
 
     public static void resetSkinValue(Context context) {
@@ -609,6 +742,14 @@ public class FBUICacheUtils {
 
     public static boolean beautyMakeUpResetEnable() {
         return SharedPreferencesUtil.get("make_up_enable", false);
+    }
+    public static void resetGreencreenValue(Context context) {
+
+        FBSelectedPosition.VALUE_SIMILARITY = 0;
+        FBSelectedPosition.VALUE_SMOOTHNESS = 0;
+        FBSelectedPosition.VALUE_ALPHA = 0;
+        FBSelectedPosition.VALUE_DECOLOR = 0;
+        initCache(false);
     }
 
     /**
@@ -859,5 +1000,189 @@ public class FBUICacheUtils {
                 SharedPreferencesUtil.put(FBUICacheKey.PUPILS_SELECT_POSITION.name(), position);
                 break;
         }
+    }
+
+    public static void resetMakeUpValue(Context context, int type) {
+        final List<Makeup> items = new ArrayList<>();
+        items.clear();
+        switch (type) {
+            case 0:
+                LipstickConfig lipstickList = FBConfigTools.getInstance().getLipstickList();
+                if (lipstickList == null) {
+                    FBConfigTools.getInstance().getLipsticksConfig(new FBConfigCallBack<List<Makeup>>() {
+                        @Override public void success(List<Makeup> list) {
+                            items.addAll(list);
+                        }
+
+                        @Override public void fail(Exception error) {
+                            error.printStackTrace();
+
+                        }
+                    });
+                } else {
+                    items.addAll(lipstickList.getLipsticks());
+
+                }
+                for (Makeup item : items) {
+                    SharedPreferencesUtil.remove(context, "makeup_lipstick_" + item.getType());
+                }
+
+                break;
+            case 1:
+
+                EyebrowConfig eyebrowList = FBConfigTools.getInstance().getEyebrowList();
+                if (eyebrowList == null) {
+                    FBConfigTools.getInstance().getEyebrowsConfig(new FBConfigCallBack<List<Makeup>>() {
+                        @Override public void success(List<Makeup> list) {
+                            items.addAll(list);
+
+                        }
+
+                        @Override public void fail(Exception error) {
+                            error.printStackTrace();
+
+                        }
+                    });
+                } else {
+                    items.addAll(eyebrowList.getEyebrows());
+
+                }
+                for (Makeup item : items) {
+                    SharedPreferencesUtil.remove(context, "makeup_eyebrow_" + item.getType());
+                }
+                break;
+            case 2:
+                BlushConfig blushList = FBConfigTools.getInstance().getBlushList();
+                if (blushList == null) {
+                    FBConfigTools.getInstance().getBlushsConfig(new FBConfigCallBack<List<Makeup>>() {
+                        @Override public void success(List<Makeup> list) {
+                            items.addAll(list);
+
+                        }
+
+                        @Override public void fail(Exception error) {
+                            error.printStackTrace();
+
+                        }
+                    });
+                } else {
+                    items.addAll(blushList.getBlushes());
+
+                }
+                for (Makeup item : items) {
+                    SharedPreferencesUtil.remove(context, "makeup_blush_" + item.getType());
+                }
+                break;
+            case 3:
+                EyeshadowConfig shadowList = FBConfigTools.getInstance().getEyeshadowList();
+                if (shadowList == null) {
+                    FBConfigTools.getInstance().getEyeshadowsConfig(new FBConfigCallBack<List<Makeup>>() {
+                        @Override public void success(List<Makeup> list) {
+                            items.addAll(list);
+
+                        }
+
+                        @Override public void fail(Exception error) {
+                            error.printStackTrace();
+
+                        }
+                    });
+                } else {
+                    items.addAll(shadowList.getEyeshadows());
+
+                }
+                for (Makeup item : items) {
+                    SharedPreferencesUtil.remove(context, "makeup_eyeshadow_" + item.getName());
+                }
+                break;
+            case 4:
+                EyelineConfig eyelineList = FBConfigTools.getInstance().getEyelineList();
+                if (eyelineList == null) {
+                    FBConfigTools.getInstance().getEyelinesConfig(new FBConfigCallBack<List<Makeup>>() {
+                        @Override public void success(List<Makeup> list) {
+                            items.addAll(list);
+
+                        }
+
+                        @Override public void fail(Exception error) {
+                            error.printStackTrace();
+
+                        }
+                    });
+                } else {
+                    items.addAll(eyelineList.getEyeliners());
+
+                }
+                for (Makeup item : items) {
+                    SharedPreferencesUtil.remove(context, "makeup_eyeline_" + item.getName());
+                }
+                break;
+            case 5:
+                EyelashConfig eyelashList = FBConfigTools.getInstance().getEyelashList();
+                if (eyelashList == null) {
+                    FBConfigTools.getInstance().getEyelashsConfig(new FBConfigCallBack<List<Makeup>>() {
+                        @Override public void success(List<Makeup> list) {
+                            items.addAll(list);
+
+                        }
+
+                        @Override public void fail(Exception error) {
+                            error.printStackTrace();
+
+                        }
+                    });
+                } else {
+                    items.addAll(eyelashList.getEyelashes());
+
+                }
+                for (Makeup item : items) {
+                    SharedPreferencesUtil.remove(context, "makeup_eyelash_" + item.getName());
+                }
+                break;
+            case 6:
+                PupilsConfig pupilsList = FBConfigTools.getInstance().getPupilsList();
+                if (pupilsList == null) {
+                    FBConfigTools.getInstance().getPupilsConfig(new FBConfigCallBack<List<Makeup>>() {
+                        @Override public void success(List<Makeup> list) {
+                            items.addAll(list);
+
+                        }
+
+                        @Override public void fail(Exception error) {
+                            error.printStackTrace();
+
+                        }
+                    });
+                } else {
+                    items.addAll(pupilsList.getPupils());
+
+                }
+                for (Makeup item : items) {
+                    SharedPreferencesUtil.remove(context, "makeup_pupils_" + item.getName());
+                }
+                break;
+
+        }
+
+        setMakeupItemPostionCache(type, 0);
+        setMakeupItemColorPositionCache(type, 0);
+
+        if (type == 0) {
+            setMakeupItemNameOrTypeCache(type, "-1");
+            setMakeupItemColorCache(type, "rouhefen");
+        } else if (type == 1) {
+            setMakeupItemNameOrTypeCache(type, "-1");
+            setMakeupItemColorCache(type, "roufenzong");
+        } else if (type == 2) {
+            setMakeupItemNameOrTypeCache(type, "-1");
+            setMakeupItemColorCache(type, "richang");
+        } else {
+            setMakeupItemNameOrTypeCache(type, "");
+        }
+
+        setBeautyMakeupPosition(-1);
+
+        initCache(false);
+        FBState.currentMakeUp = MakeUpEnum.LIPSTICK;
     }
 }

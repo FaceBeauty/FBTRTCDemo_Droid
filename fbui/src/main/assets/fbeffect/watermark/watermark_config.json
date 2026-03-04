@@ -23,12 +23,6 @@
             "category": "default",
             "icon": "watermark_effect_diary_icon.png",
             "download": 2
-        },
-        {
-            "name": "watermark_effect_fish",
-            "category": "default",
-            "icon": "watermark_effect_fish_icon.png",
-            "download": 2
         }
     ]
 }
