@@ -12,6 +12,7 @@ _中文 | [English](README.en.md)_
 下载完成后，打开工程
 - 将 AndroidManifest.xml 中的 **label** 和 build.gradle 中的 **applicationId** 分别替换为您的**应用名**和**包名**
 - 在项目的Application中将 **YOUR_APP_ID** 替换成您的**AppId**
+- **请至https://github.com/FaceBeauty/FaceBeautySDK_Android下载最新的fbui以及资源文件(fbeffect)**
 - 将fbui模块中的**assets**替换为您的**assets**
 - 编译，运行，日志搜索**init-status**可以查看相关日志
 - 具体执行步骤可以全局搜索 **//todo --- facebeauty** 进行查看
@@ -58,7 +59,7 @@ _中文 | [English](README.en.md)_
 - 最低兼容 Android 4.1（SDK API Level 16），建议使用 Android 5.0 （SDK API Level 21）及以上版本
 - Android Studio 3.5及以上版本
 - App 要求 Android 5.0及以上设备
- 
+
 
 ## 运行示例
 

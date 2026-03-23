@@ -12,6 +12,7 @@
 After downloading, open project
 - Replace **label** in AndroidManifest.xml and **applicationId** in build.gradle with **your APP name** and **package name**, respectively
 - Replace **YOUR_APP_ID** with **your AppId** in Application
+- **Please go to https://github.com/FaceBeauty/FaceBeautySDK_Android Download the latest fbui and resource files (fbeffect)**
 - Replace **assets** in fbui folder with your **assets**
 - Build, Run, and search **init-status** to see relevant logs
 - The specific execution steps can be viewed by searching **//todo --- facebeauty** globally
@@ -57,7 +58,7 @@ This demo covers the following features (click to view the details of a feature)
 - Android 4.1 (SDK API level 16) or above; Android 5.0 (SDK API level 21) or above is recommended
 - Android Studio 3.5 or above
 - Devices with Android 5.0 or above
- 
+
 
 ## Demo Run Example
 
